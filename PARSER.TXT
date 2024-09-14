@@ -1,0 +1,29 @@
+
+    EKE Parser av Fredrik Öhrström      (EKE=En Kanske Effektiv)
+
+    En regel består av ett namn till vänster, en lista med uttryck till höger.
+    regelnamn -> uttryck, uttryck, uttryck, .....
+
+    Ett uttryck kan vara:
+        ingenting
+        ett löv         ex. z, x, adjective
+        ett regelnamn   ex. A, C, VP, Predicate
+        en xorklausul där varje element måste vara ett regelnamn
+                        ex. { FRÅGESATS,PÅSTÅENDE,UTROP }
+                            { 0, A }
+    Ex. på regler:
+                NULL ->
+                S -> NP Predicate-Phrase
+                Predicate-Phrase -> Aux VP { NULL,Place } { NULL,Time }
+
+    S -> x A { 0,z }
+    A -> y { 0,z }
+    analysera "x y z"
+        (S 1) | x y z
+    3   (S 2 x) | y z
+    4   (S 2 x) (A 1) | y z
+    5   (S 2 x) (A 2 y) | z
+    1   (S 2 x) (A 0 y) | z        (S 2 x) (A 0 y z) |
+    2   (S 2 x) | (A 0 y) z    2   (S 2 x) | (A 0 y z)
+    3   (S 3 x (A 0 y)) | z    3   (S 3 x (A 0 y z)) |
+    3   (S 0 x (A 0 y) z) |    1   (S 0 x (A 0 y z)) |      (S 3 x (A 0 y z)) |
